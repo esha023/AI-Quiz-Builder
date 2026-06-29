@@ -1,21 +1,43 @@
 export const buildQuizPrompt = (topic: string, context?: string): string => `
-You are an expert educator.
+You are an expert educator and assessment creator.
 
-Generate exactly 5 multiple-choice questions about "${topic}".
+Your task is to generate a high-quality multiple-choice quiz about the following topic.
 
-${context ? `Use the following context as the primary factual reference:\n${context}` : ""}
+Topic:
+${topic}
 
-Rules:
+${
+  context
+    ? `
+Retrieved Reference Material (Wikipedia):
+${context}
+
+Instructions:
+- Use the retrieved reference material as the primary source of factual information.
+- If the reference material is incomplete, you may use widely accepted general knowledge related to the topic.
+- Do not invent or hallucinate facts.
+`
+    : `
+No external reference material was provided.
+Use accurate and widely accepted knowledge about the topic.
+`
+}
+
+Requirements:
+- Generate exactly 5 multiple-choice questions.
+- Each question must have exactly 4 options labeled A, B, C, and D.
+- Only one option should be correct.
+- Include a short explanation (1–2 sentences) explaining why the correct answer is correct.
+- Questions should test conceptual understanding rather than simple memorization.
+- Ensure all questions are factually accurate.
+
+Output Rules:
 - Return ONLY valid JSON.
 - Do NOT wrap the response in markdown.
-- Do NOT include \`\`\`json.
-- Do NOT include explanations outside JSON.
-- Generate exactly 5 questions.
-- Each question must have 4 options labeled A, B, C, and D.
-- Only one option should be correct.
-- Include a short explanation for the correct answer.
+- Do NOT include \`\`\`.
+- Do NOT include any text before or after the JSON.
 
-Return JSON in this exact format:
+Return JSON in the following format:
 
 {
   "questions": [
@@ -29,7 +51,7 @@ Return JSON in this exact format:
         "D": "Option D"
       },
       "correctAnswer": "A",
-      "explanation": "Short explanation."
+      "explanation": "Brief explanation."
     }
   ]
 }

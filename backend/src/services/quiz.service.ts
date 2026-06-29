@@ -1,9 +1,11 @@
 import { randomUUID } from "crypto";
 import { generateQuizWithAI } from "./ai.service";
 import { Quiz } from "../types/quiz.types";
+import { getWikipediaSummary } from "./wiki.service";
 
 export const generateQuizService = async (topic: string): Promise<Quiz> => {
-  const aiResponse = await generateQuizWithAI(topic);
+  const context = await getWikipediaSummary(topic);
+  const aiResponse = await generateQuizWithAI(topic, context);
 
   return {
     id: randomUUID(),
