@@ -1,7 +1,14 @@
-export const generateQuizService = async (topic: string) => {
+import { randomUUID } from "crypto";
+import { generateQuizWithAI } from "./ai.service";
+import { Quiz } from "../types/quiz.types";
+
+export const generateQuizService = async (topic: string): Promise<Quiz> => {
+  const aiResponse = await generateQuizWithAI(topic);
+
   return {
-    success: true,
+    id: randomUUID(),
     topic,
-    message: "Quiz generation pipeline is working",
+    createdAt: new Date().toISOString(),
+    questions: aiResponse.questions,
   };
 };

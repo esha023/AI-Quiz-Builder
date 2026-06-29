@@ -10,7 +10,10 @@ export const generateQuiz = async (
 
     const result = await generateQuizService(topic);
 
-    res.status(200).json(result);
+    res.status(200).json({
+      success: true,
+      quiz: result,
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
