@@ -1,12 +1,19 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { generateQuizService } from "../services/quiz.service";
 
 export const generateQuiz = async (
   req: Request,
   res: Response,
+  next: NextFunction,
 ): Promise<void> => {
   try {
     const { topic } = req.body;
+
+    if (!topic) {
+      const error = new Error("Topic is required");
+      error.name = "ValidationError";
+      throw error;
+    }
 
     const result = await generateQuizService(topic);
 
@@ -15,9 +22,6 @@ export const generateQuiz = async (
       quiz: result,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to generate quiz",
-    });
+    next(error);
   }
 };
