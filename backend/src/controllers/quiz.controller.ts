@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from "express";
-import { generateQuizService } from "../services/quiz.service";
+import {
+  generateQuizService,
+  getQuizHistoryService,
+} from "../services/quiz.service";
 
 export const generateQuiz = async (
   req: Request,
@@ -24,4 +27,13 @@ export const generateQuiz = async (
   } catch (error) {
     next(error);
   }
+};
+
+export const getQuizHistory = (req: Request, res: Response) => {
+  const history = getQuizHistoryService();
+
+  res.status(200).json({
+    success: true,
+    history,
+  });
 };

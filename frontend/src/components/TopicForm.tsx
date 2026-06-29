@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Form, Spinner } from "react-bootstrap";
+import History from "./History";
 
 interface Props {
   onGenerate: (topic: string) => void;
@@ -51,6 +52,8 @@ const TopicForm = ({ onGenerate, loading }: Props) => {
               )}
             </Button>
           </Form>
+
+          <History />
         </Card.Body>
       </Card>
     </div>
