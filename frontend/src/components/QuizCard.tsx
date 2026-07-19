@@ -17,8 +17,6 @@ const QuizCard = ({ quiz, answers, onSelect, onSubmit }: QuizCardProps) => {
   return (
     <Container className="quiz-wrapper">
       <div className="quiz-header">
-        <h2 className="quiz-title">Test Your Knowledge</h2>
-
         <div className="quiz-topic">
           Topic: <Badge bg="primary">{quiz.topic}</Badge>
         </div>
